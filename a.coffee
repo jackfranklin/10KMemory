@@ -32,6 +32,8 @@ class WordMemory
         numWords = @currentLevel*5
         timeAllowed = 5000
         inputTime = (numWords*3)*1000
+        #clear the list of words
+        @currentWords = []
         @collectWords numWords
 
         @flashWords timeAllowed, ->
@@ -74,8 +76,8 @@ class WordMemory
             # TODO: Build in some form of reset here.
             
     advanceLevel: ->
-        $("#wordlist").text("On to Level " + @currentLevel+1 + ". Get ready for more words but no more time!")
-        setTimeout ->
+        $("#wordlist").text("On to Level " + (@currentLevel+1) + ". Get ready for more words but no more time!")
+        setTimeout =>
             @startLevel()
         , 1000
 

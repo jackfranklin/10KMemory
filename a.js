@@ -51,6 +51,7 @@
       numWords = this.currentLevel * 5;
       timeAllowed = 5000;
       inputTime = (numWords * 3) * 1000;
+      this.currentWords = [];
       this.collectWords(numWords);
       return this.flashWords(timeAllowed, function() {
         this.showInput(inputTime);
@@ -96,10 +97,10 @@
       }
     };
     WordMemory.prototype.advanceLevel = function() {
-      $("#wordlist").text("On to Level " + this.currentLevel + 1 + ". Get ready for more words but no more time!");
-      return setTimeout(function() {
+      $("#wordlist").text("On to Level " + (this.currentLevel + 1) + ". Get ready for more words but no more time!");
+      return setTimeout(__bind(function() {
         return this.startLevel();
-      }, 1000);
+      }, this), 1000);
     };
     WordMemory.prototype.flashWords = function(timeout, callback, scope) {
       $("#updates").hide().text(this.currentWords.join(" ")).show();
