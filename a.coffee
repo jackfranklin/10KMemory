@@ -1,6 +1,7 @@
 class WordMemory 
-    constructor: (startButton)->
+    constructor: (startButton, formInput)->
         @startButton = startButton
+        @formInput = formInput;
         @currentLevel = 0
         @currentScore = 0
         @currentWords = []
@@ -11,8 +12,7 @@ class WordMemory
     init: ->
         $(@startButton).click (e) =>
             e.preventDefault()
-            @collectWords(5)
-
+            @startLevel()
     collectWords: (amount=5) ->
         $.ajax({
             url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=8&minLength=2&api_key=" + @wordnik,
@@ -20,10 +20,39 @@ class WordMemory
             method: "get",
             async: "false",
             success: (d) =>
-                console.log d
-                @currentWords.push(x.word) for x in d;
-        }); 
+                @currentWords.push(x.word) for x in d
+        })
+
+    startLevel: ->
+        ++@currentLevel
+        numWords = @currentLevel*5
+        timeAllowed = (numWords*3)*1000
+        @collectWords numWords
+        @showInput()
+
+    monitorInput: ->
+        #this monitors the input for changes & checks if the value matches one of the required words
+
+    flashWords: (timeout) ->
+        #adds the words to the paragraph & shows them for timeout seconds
+        $("#updates").hide().text(@currentWords.join(" "))
+        setTimeout ->
+            $("#updates").hide()
+        ,timeout
+        
+
+
+    showInput: (timeout=0) ->
+        console.log $(@formInput);
+        $(@formInput).parents("form").show()
+        if timeout isnt 0 then setTimeout =>
+            @hideInput
+        , timeout
+
+    hideInput: ->
+        $(@formInput).parents("form").hide()
+    
     
 
 
-window.game = new WordMemory "#startButton"
+window.game = new WordMemory "#startButton", "#wordinput"

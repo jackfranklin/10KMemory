@@ -2,8 +2,9 @@
   var WordMemory;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   WordMemory = (function() {
-    function WordMemory(startButton) {
+    function WordMemory(startButton, formInput) {
       this.startButton = startButton;
+      this.formInput = formInput;
       this.currentLevel = 0;
       this.currentScore = 0;
       this.currentWords = [];
@@ -14,7 +15,7 @@
     WordMemory.prototype.init = function() {
       return $(this.startButton).click(__bind(function(e) {
         e.preventDefault();
-        return this.collectWords(5);
+        return this.startLevel();
       }, this));
     };
     WordMemory.prototype.collectWords = function(amount) {
@@ -28,7 +29,6 @@
         async: "false",
         success: __bind(function(d) {
           var x, _i, _len, _results;
-          console.log(d);
           _results = [];
           for (_i = 0, _len = d.length; _i < _len; _i++) {
             x = d[_i];
@@ -38,7 +38,37 @@
         }, this)
       });
     };
+    WordMemory.prototype.startLevel = function() {
+      var numWords, timeAllowed;
+      ++this.currentLevel;
+      numWords = this.currentLevel * 5;
+      timeAllowed = (numWords * 3) * 1000;
+      this.collectWords(numWords);
+      return this.showInput();
+    };
+    WordMemory.prototype.monitorInput = function() {};
+    WordMemory.prototype.flashWords = function(timeout) {
+      $("#updates").hide().text(this.currentWords.join(" "));
+      return setTimeout(function() {
+        return $("#updates").hide();
+      }, timeout);
+    };
+    WordMemory.prototype.showInput = function(timeout) {
+      if (timeout == null) {
+        timeout = 0;
+      }
+      console.log($(this.formInput));
+      $(this.formInput).parents("form").show();
+      if (timeout !== 0) {
+        return setTimeout(__bind(function() {
+          return this.hideInput;
+        }, this), timeout);
+      }
+    };
+    WordMemory.prototype.hideInput = function() {
+      return $(this.formInput).parents("form").hide();
+    };
     return WordMemory;
   })();
-  window.game = new WordMemory("#startButton");
+  window.game = new WordMemory("#startButton", "#wordinput");
 }).call(this);
