@@ -1,6 +1,11 @@
 (function() {
   var WordMemory;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
+    }
+    return -1;
+  };
   WordMemory = (function() {
     function WordMemory(startButton, formInput) {
       this.startButton = startButton;
@@ -9,6 +14,7 @@
       this.currentScore = 0;
       this.currentWords = [];
       this.wordsGot = [];
+      this.levelRunning = false;
       this.wordnik = "03e4c5fc37b23b29ff30f0af73c00c5302cff40d81eb8b139";
       this.init();
     }
@@ -41,6 +47,7 @@
     WordMemory.prototype.startLevel = function() {
       var inputTime, numWords, timeAllowed;
       ++this.currentLevel;
+      this.levelRunning = true;
       numWords = this.currentLevel * 5;
       timeAllowed = 5000;
       inputTime = (numWords * 3) * 1000;
@@ -53,35 +60,37 @@
     };
     WordMemory.prototype.monitorInput = function(totalWords) {
       return $(this.formInput).keyup(__bind(function() {
-        var x, _i, _len, _ref;
+        var inputVal;
         console.log($(this.formInput).val());
-        _ref = this.currentWords;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          x = _ref[_i];
-          if (x === $(this.formInput).val().toLowerCase()) {
-            this.wordsGot.push($(this.formInput).val());
-            $(this.formInput).val("");
-          }
+        inputVal = $(this.formInput).val().toLowerCase();
+        if (__indexOf.call(this.currentWords, inputVal) >= 0) {
+          this.wordsGot.push(inputVal);
+          $(this.formInput).val("");
         }
         console.log("wordsGot: ", this.wordsGot);
         if (this.wordsGot.length === totalWords) {
-          return this.endLevel();
+          $(this.formInput).unbind();
+          return this.endLevel(totalWords);
         }
       }, this));
     };
     WordMemory.prototype.endLevel = function(numWords) {
       var passLevel, passRate;
+      this.levelRunning = false;
       passRate = (numWords / 5) * 4;
       passLevel = false;
       if (this.wordsGot.length >= passRate) {
         passLevel = true;
       }
+      console.log(passRate, passLevel, this.wordsGot.length);
       this.currentScore += this.wordsGot.length;
       if (passLevel === true) {
         alert("Level " + this.currentLevel + " passed!");
+        $("#wordlist").text("Congratulations! You passed Level 1");
         $("#currentscore").text("Current Score: " + this.currentScore);
       }
       if (passLevel === false) {
+        $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right");
         return alert("you lose");
       }
     };
@@ -102,7 +111,9 @@
       if (timeout !== 0) {
         return setTimeout(__bind(function() {
           this.hideInput();
-          return this.endLevel();
+          if (this.levelRunning === true) {
+            return this.endLevel(this.wordsGot.length);
+          }
         }, this), timeout);
       }
     };

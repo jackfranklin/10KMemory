@@ -6,6 +6,7 @@ class WordMemory
         @currentScore = 0
         @currentWords = []
         @wordsGot = []
+        @levelRunning = false
         @wordnik = "03e4c5fc37b23b29ff30f0af73c00c5302cff40d81eb8b139"
         @init()
 
@@ -27,6 +28,7 @@ class WordMemory
 
     startLevel: ->
         ++@currentLevel
+        @levelRunning = true
         numWords = @currentLevel*5
         timeAllowed = 5000
         inputTime = (numWords*3)*1000
@@ -42,23 +44,31 @@ class WordMemory
         #this monitors the input for changes & checks if the value matches one of the required words
         $(@formInput).keyup =>
             console.log($(@formInput).val())
-            for x in @currentWords when x is $(@formInput).val().toLowerCase()
-                @wordsGot.push($(@formInput).val())
+            inputVal = $(@formInput).val().toLowerCase()
+            if inputVal in @currentWords
+                @wordsGot.push(inputVal)
                 $(@formInput).val("")
             console.log("wordsGot: ", @wordsGot)
-            @endLevel() if @wordsGot.length is totalWords
+            if @wordsGot.length is totalWords
+                $(@formInput).unbind()
+                @endLevel totalWords
+
 
 
     endLevel: (numWords) ->
+        @levelRunning = false;
         passRate = (numWords/5)*4
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
+        console.log(passRate, passLevel, @wordsGot.length)
         @currentScore += @wordsGot.length
         if passLevel is true
             alert("Level " + @currentLevel + " passed!")
+            $("#wordlist").text("Congratulations! You passed Level 1")
             $("#currentscore").text("Current Score: " + @currentScore)
 
         if passLevel is false
+            $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right")
             alert("you lose")
 
 
@@ -78,7 +88,8 @@ class WordMemory
         $(@formInput).parents("form").show()
         if timeout isnt 0 then setTimeout =>
             @hideInput()
-            @endLevel()
+            if @levelRunning is true
+                @endLevel @wordsGot.length
         , timeout
 
     hideInput: ->
