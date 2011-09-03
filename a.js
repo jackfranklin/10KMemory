@@ -1,5 +1,5 @@
 (function() {
-  var WordMemory, game;
+  var WordMemory;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   WordMemory = (function() {
     function WordMemory(startButton) {
@@ -26,19 +26,19 @@
         dataType: "json",
         method: "get",
         async: "false",
-        success: function(d) {
-          var i, _results;
+        success: __bind(function(d) {
+          var x, _i, _len, _results;
           console.log(d);
-          i = 0;
           _results = [];
-          while (i++ < d.length) {
-            _results.push(this.currentWords.push(d[i].word));
+          for (_i = 0, _len = d.length; _i < _len; _i++) {
+            x = d[_i];
+            _results.push(this.currentWords.push(x.word));
           }
           return _results;
-        }
+        }, this)
       });
     };
     return WordMemory;
   })();
-  game = new WordMemory("#startButton");
+  window.game = new WordMemory("#startButton");
 }).call(this);

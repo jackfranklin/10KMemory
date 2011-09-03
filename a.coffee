@@ -19,13 +19,11 @@ class WordMemory
             dataType: "json",
             method: "get",
             async: "false",
-            success: (d) ->
+            success: (d) =>
                 console.log d
-                i = 0
-                @currentWords.push d[i].word while i++ < d.length
-                
+                @currentWords.push(x.word) for x in d;
         }); 
+    
 
 
-
-game = new WordMemory "#startButton"
+window.game = new WordMemory "#startButton"
