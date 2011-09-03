@@ -68,6 +68,14 @@
         }
       }, this));
     };
+    WordMemory.prototype.endLevel = function(numWords) {
+      var passLevel, passRate;
+      passRate = (numWords / 5) * 4;
+      passLevel = false;
+      if (this.wordsGot.length >= passRate) {
+        return passLevel = true;
+      }
+    };
     WordMemory.prototype.flashWords = function(timeout, callback, scope) {
       console.log("flash words called");
       $("#updates").hide().text(this.currentWords.join(" ")).show();

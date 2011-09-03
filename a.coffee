@@ -48,6 +48,13 @@ class WordMemory
             @endLevel() if @wordsGot.length is totalWords
 
 
+    endLevel: (numWords) ->
+        passRate = (numWords/5)*4 
+        passLevel = false
+        passLevel = true if @wordsGot.length >= passRate
+        
+
+
     flashWords: (timeout, callback, scope) ->
         console.log "flash words called"
         #adds the words to the paragraph & shows them for timeout seconds
