@@ -77,6 +77,7 @@
     WordMemory.prototype.endLevel = function(numWords) {
       var passLevel, passRate;
       this.levelRunning = false;
+      this.hideInput();
       passRate = (numWords / 5) * 4;
       passLevel = false;
       if (this.wordsGot.length >= passRate) {
@@ -98,6 +99,7 @@
     };
     WordMemory.prototype.advanceLevel = function() {
       $("#wordlist").text("On to Level " + (this.currentLevel + 1) + ". Get ready for more words but no more time!");
+      this.wordsGot = [];
       return setTimeout(__bind(function() {
         return this.startLevel();
       }, this), 1000);

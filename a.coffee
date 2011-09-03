@@ -58,6 +58,8 @@ class WordMemory
 
     endLevel: (numWords) ->
         @levelRunning = false
+        @hideInput()
+            
         passRate = (numWords/5)*4
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
@@ -77,6 +79,7 @@ class WordMemory
             
     advanceLevel: ->
         $("#wordlist").text("On to Level " + (@currentLevel+1) + ". Get ready for more words but no more time!")
+        @wordsGot = []
         setTimeout =>
             @startLevel()
         , 1000
