@@ -47,6 +47,8 @@ class WordMemory
             inputVal = $(@formInput).val().toLowerCase()
             if inputVal in @currentWords
                 @wordsGot.push(inputVal)
+                @currentScore++
+                $("#currentscore").text("Current Score: " + @currentScore);
                 $(@formInput).val("")
             console.log("wordsGot: ", @wordsGot)
             if @wordsGot.length is totalWords
@@ -56,7 +58,7 @@ class WordMemory
 
 
     endLevel: (numWords) ->
-        @levelRunning = false;
+        @levelRunning = false
         passRate = (numWords/5)*4
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
@@ -64,13 +66,21 @@ class WordMemory
         @currentScore += @wordsGot.length
         if passLevel is true
             alert("Level " + @currentLevel + " passed!")
-            $("#wordlist").text("Congratulations! You passed Level 1")
+            $("#wordlist").text("Congratulations! You passed the Level")
             $("#currentscore").text("Current Score: " + @currentScore)
+            @advanceLevel();
 
         if passLevel is false
             $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right")
+            $("#currentscore").text("Current Score: " + @currentScore)
             alert("you lose")
-
+            # TODO: Build in some form of reset here.
+            
+    advanceLevel: ->
+        $("#wordlist").text("On to Level " + @currentLevel+1 + ". Get ready for more words but no more time!")
+        setTimeout ->
+            @startLevel()
+        , 1000
 
     flashWords: (timeout, callback, scope) ->
         console.log "flash words called"
@@ -89,7 +99,7 @@ class WordMemory
         if timeout isnt 0 then setTimeout =>
             @hideInput()
             if @levelRunning is true
-                @endLevel @wordsGot.length
+                @endLevel @currentWords.length
         , timeout
 
     hideInput: ->
