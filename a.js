@@ -51,7 +51,6 @@
       numWords = this.currentLevel * 5;
       timeAllowed = 5000;
       inputTime = (numWords * 3) * 1000;
-      console.log(timeAllowed);
       this.collectWords(numWords);
       return this.flashWords(timeAllowed, function() {
         this.showInput(inputTime);
@@ -61,7 +60,6 @@
     WordMemory.prototype.monitorInput = function(totalWords) {
       return $(this.formInput).keyup(__bind(function() {
         var inputVal;
-        console.log($(this.formInput).val());
         inputVal = $(this.formInput).val().toLowerCase();
         if (__indexOf.call(this.currentWords, inputVal) >= 0) {
           this.wordsGot.push(inputVal);
@@ -69,7 +67,6 @@
           $("#currentscore").text("Current Score: " + this.currentScore);
           $(this.formInput).val("");
         }
-        console.log("wordsGot: ", this.wordsGot);
         if (this.wordsGot.length === totalWords) {
           $(this.formInput).unbind();
           return this.endLevel(totalWords);
@@ -105,7 +102,6 @@
       }, 1000);
     };
     WordMemory.prototype.flashWords = function(timeout, callback, scope) {
-      console.log("flash words called");
       $("#updates").hide().text(this.currentWords.join(" ")).show();
       return setTimeout(function() {
         $("#updates").hide();

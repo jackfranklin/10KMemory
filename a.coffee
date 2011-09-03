@@ -13,7 +13,7 @@ class WordMemory
     init: ->
         $(@startButton).click (e) =>
             e.preventDefault()
-            $(@startButton).hide();
+            $(@startButton).hide()
             @startLevel()
     collectWords: (amount=5) ->
         $.ajax({
@@ -32,7 +32,6 @@ class WordMemory
         numWords = @currentLevel*5
         timeAllowed = 5000
         inputTime = (numWords*3)*1000
-        console.log timeAllowed
         @collectWords numWords
 
         @flashWords timeAllowed, ->
@@ -43,14 +42,12 @@ class WordMemory
     monitorInput:(totalWords) ->
         #this monitors the input for changes & checks if the value matches one of the required words
         $(@formInput).keyup =>
-            console.log($(@formInput).val())
             inputVal = $(@formInput).val().toLowerCase()
             if inputVal in @currentWords
                 @wordsGot.push(inputVal)
                 @currentScore++
-                $("#currentscore").text("Current Score: " + @currentScore);
+                $("#currentscore").text("Current Score: " + @currentScore)
                 $(@formInput).val("")
-            console.log("wordsGot: ", @wordsGot)
             if @wordsGot.length is totalWords
                 $(@formInput).unbind()
                 @endLevel totalWords
@@ -68,7 +65,7 @@ class WordMemory
             alert("Level " + @currentLevel + " passed!")
             $("#wordlist").text("Congratulations! You passed the Level")
             $("#currentscore").text("Current Score: " + @currentScore)
-            @advanceLevel();
+            @advanceLevel()
 
         if passLevel is false
             $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right")
@@ -83,7 +80,6 @@ class WordMemory
         , 1000
 
     flashWords: (timeout, callback, scope) ->
-        console.log "flash words called"
         #adds the words to the paragraph & shows them for timeout seconds
         $("#updates").hide().text(@currentWords.join(" ")).show()
         setTimeout ->
@@ -101,6 +97,7 @@ class WordMemory
             if @levelRunning is true
                 @endLevel @currentWords.length
         , timeout
+
 
     hideInput: ->
         $(@formInput).parents("form").hide()
