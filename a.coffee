@@ -1,7 +1,7 @@
-class WordMemory 
+class WordMemory
     constructor: (startButton, formInput)->
         @startButton = startButton
-        @formInput = formInput;
+        @formInput = formInput
         @currentLevel = 0
         @currentScore = 0
         @currentWords = []
@@ -12,6 +12,7 @@ class WordMemory
     init: ->
         $(@startButton).click (e) =>
             e.preventDefault()
+            $(@startButton).hide();
             @startLevel()
     collectWords: (amount=5) ->
         $.ajax({
@@ -21,7 +22,7 @@ class WordMemory
             async: false,
             success: (d) =>
                 @currentWords.push(x.word) for x in d
-                console.log @currentWords;
+                console.log @currentWords
         })
 
     startLevel: ->
@@ -49,10 +50,16 @@ class WordMemory
 
 
     endLevel: (numWords) ->
-        passRate = (numWords/5)*4 
+        passRate = (numWords/5)*4
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
-        
+        @currentScore += @wordsGot.length
+        if passLevel is true
+            alert("Level " + @currentLevel + " passed!")
+            $("#currentscore").text("Current Score: " + @currentScore)
+
+        if passLevel is false
+            alert("you lose")
 
 
     flashWords: (timeout, callback, scope) ->

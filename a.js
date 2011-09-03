@@ -15,6 +15,7 @@
     WordMemory.prototype.init = function() {
       return $(this.startButton).click(__bind(function(e) {
         e.preventDefault();
+        $(this.startButton).hide();
         return this.startLevel();
       }, this));
     };
@@ -73,7 +74,15 @@
       passRate = (numWords / 5) * 4;
       passLevel = false;
       if (this.wordsGot.length >= passRate) {
-        return passLevel = true;
+        passLevel = true;
+      }
+      this.currentScore += this.wordsGot.length;
+      if (passLevel === true) {
+        alert("Level " + this.currentLevel + " passed!");
+        $("#currentscore").text("Current Score: " + this.currentScore);
+      }
+      if (passLevel === false) {
+        return alert("you lose");
       }
     };
     WordMemory.prototype.flashWords = function(timeout, callback, scope) {
