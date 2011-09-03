@@ -26,31 +26,37 @@
         url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=8&minLength=2&api_key=" + this.wordnik,
         dataType: "json",
         method: "get",
-        async: "false",
+        async: false,
         success: __bind(function(d) {
-          var x, _i, _len, _results;
-          _results = [];
+          var x, _i, _len;
           for (_i = 0, _len = d.length; _i < _len; _i++) {
             x = d[_i];
-            _results.push(this.currentWords.push(x.word));
+            this.currentWords.push(x.word);
           }
-          return _results;
+          return console.log(this.currentWords);
         }, this)
       });
     };
     WordMemory.prototype.startLevel = function() {
-      var numWords, timeAllowed;
+      var inputTime, numWords, timeAllowed;
       ++this.currentLevel;
       numWords = this.currentLevel * 5;
-      timeAllowed = (numWords * 3) * 1000;
+      timeAllowed = 5000;
+      inputTime = (numWords * 3) * 1000;
+      console.log(timeAllowed);
       this.collectWords(numWords);
-      return this.showInput();
+      return this.flashWords(timeAllowed, function() {
+        this.showInput(inputTime);
+        return this.monitorInput;
+      }, this);
     };
     WordMemory.prototype.monitorInput = function() {};
-    WordMemory.prototype.flashWords = function(timeout) {
-      $("#updates").hide().text(this.currentWords.join(" "));
+    WordMemory.prototype.flashWords = function(timeout, callback, scope) {
+      console.log("flash words called");
+      $("#updates").hide().text(this.currentWords.join(" ")).show();
       return setTimeout(function() {
-        return $("#updates").hide();
+        $("#updates").hide();
+        return callback.call(scope);
       }, timeout);
     };
     WordMemory.prototype.showInput = function(timeout) {

@@ -18,32 +18,41 @@ class WordMemory
             url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=8&minLength=2&api_key=" + @wordnik,
             dataType: "json",
             method: "get",
-            async: "false",
+            async: false,
             success: (d) =>
                 @currentWords.push(x.word) for x in d
+                console.log @currentWords;
         })
 
     startLevel: ->
         ++@currentLevel
         numWords = @currentLevel*5
-        timeAllowed = (numWords*3)*1000
+        timeAllowed = 5000
+        inputTime = (numWords*3)*1000
+        console.log timeAllowed
         @collectWords numWords
-        @showInput()
+
+        @flashWords timeAllowed, ->
+            @showInput inputTime
+            @monitorInput
+        , this
 
     monitorInput: ->
         #this monitors the input for changes & checks if the value matches one of the required words
 
-    flashWords: (timeout) ->
+    flashWords: (timeout, callback, scope) ->
+        console.log "flash words called"
         #adds the words to the paragraph & shows them for timeout seconds
-        $("#updates").hide().text(@currentWords.join(" "))
+        $("#updates").hide().text(@currentWords.join(" ")).show()
         setTimeout ->
             $("#updates").hide()
+            callback.call(scope)
         ,timeout
         
 
 
     showInput: (timeout=0) ->
-        console.log $(@formInput);
+        console.log $(@formInput)
         $(@formInput).parents("form").show()
         if timeout isnt 0 then setTimeout =>
             @hideInput
