@@ -47,10 +47,27 @@
       this.collectWords(numWords);
       return this.flashWords(timeAllowed, function() {
         this.showInput(inputTime);
-        return this.monitorInput;
+        return this.monitorInput(numWords);
       }, this);
     };
-    WordMemory.prototype.monitorInput = function() {};
+    WordMemory.prototype.monitorInput = function(totalWords) {
+      return $(this.formInput).keyup(__bind(function() {
+        var x, _i, _len, _ref;
+        console.log($(this.formInput).val());
+        _ref = this.currentWords;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          x = _ref[_i];
+          if (x === $(this.formInput).val()) {
+            this.wordsGot.push($(this.formInput).val());
+            $(this.formInput).val("");
+          }
+        }
+        console.log("wordsGot: ", this.wordsGot);
+        if (this.wordsGot.length === totalWords) {
+          return this.endLevel();
+        }
+      }, this));
+    };
     WordMemory.prototype.flashWords = function(timeout, callback, scope) {
       console.log("flash words called");
       $("#updates").hide().text(this.currentWords.join(" ")).show();
@@ -67,7 +84,8 @@
       $(this.formInput).parents("form").show();
       if (timeout !== 0) {
         return setTimeout(__bind(function() {
-          return this.hideInput;
+          this.hideInput();
+          return this.endLevel();
         }, this), timeout);
       }
     };

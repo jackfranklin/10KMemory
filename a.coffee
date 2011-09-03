@@ -34,11 +34,19 @@ class WordMemory
 
         @flashWords timeAllowed, ->
             @showInput inputTime
-            @monitorInput
+            @monitorInput numWords
         , this
 
-    monitorInput: ->
+    monitorInput:(totalWords) ->
         #this monitors the input for changes & checks if the value matches one of the required words
+        $(@formInput).keyup =>
+            console.log($(@formInput).val())
+            for x in @currentWords when x is $(@formInput).val()
+                @wordsGot.push($(@formInput).val())
+                $(@formInput).val("")
+            console.log("wordsGot: ", @wordsGot)
+            @endLevel() if @wordsGot.length is totalWords
+
 
     flashWords: (timeout, callback, scope) ->
         console.log "flash words called"
@@ -55,7 +63,8 @@ class WordMemory
         console.log $(@formInput)
         $(@formInput).parents("form").show()
         if timeout isnt 0 then setTimeout =>
-            @hideInput
+            @hideInput()
+            @endLevel()
         , timeout
 
     hideInput: ->
