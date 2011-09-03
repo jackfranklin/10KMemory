@@ -24,7 +24,7 @@
         amount = 5;
       }
       return $.ajax({
-        url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=8&minLength=2&api_key=" + this.wordnik,
+        url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=4&minLength=2&api_key=" + this.wordnik,
         dataType: "json",
         method: "get",
         async: false,
@@ -32,7 +32,7 @@
           var x, _i, _len;
           for (_i = 0, _len = d.length; _i < _len; _i++) {
             x = d[_i];
-            this.currentWords.push(x.word);
+            this.currentWords.push(x.word.toLowerCase());
           }
           return console.log(this.currentWords);
         }, this)
@@ -58,7 +58,7 @@
         _ref = this.currentWords;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           x = _ref[_i];
-          if (x === $(this.formInput).val()) {
+          if (x === $(this.formInput).val().toLowerCase()) {
             this.wordsGot.push($(this.formInput).val());
             $(this.formInput).val("");
           }

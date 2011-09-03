@@ -16,12 +16,12 @@ class WordMemory
             @startLevel()
     collectWords: (amount=5) ->
         $.ajax({
-            url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=8&minLength=2&api_key=" + @wordnik,
+            url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=4&minLength=2&api_key=" + @wordnik,
             dataType: "json",
             method: "get",
             async: false,
             success: (d) =>
-                @currentWords.push(x.word) for x in d
+                @currentWords.push(x.word.toLowerCase()) for x in d
                 console.log @currentWords
         })
 
@@ -42,7 +42,7 @@ class WordMemory
         #this monitors the input for changes & checks if the value matches one of the required words
         $(@formInput).keyup =>
             console.log($(@formInput).val())
-            for x in @currentWords when x is $(@formInput).val()
+            for x in @currentWords when x is $(@formInput).val().toLowerCase()
                 @wordsGot.push($(@formInput).val())
                 $(@formInput).val("")
             console.log("wordsGot: ", @wordsGot)
