@@ -56,7 +56,7 @@
       this.currentWords = [];
       this.collectWords(numWords);
       return this.flashWords(timeAllowed, function() {
-        this.timer();
+        this.activateTimer(30);
         this.showInput(inputTime);
         return this.monitorInput(numWords);
       }, this);
@@ -77,26 +77,22 @@
         }
       }, this));
     };
-    WordMemory.prototype.timer = function() {
-      var amount;
-      console.log("timer called");
-      amount = 30;
-      this.updateTimer(amount);
-      amount = amount - 1;
-      if (this.levelRunning === true) {
-        setTimeout(this.updateTimer(amount, 1000));
-      }
-      if (this.levelRunning === false) {
-        return $("#timer").text("TIME UP!");
-      }
+    WordMemory.prototype.activateTimer = function(amount) {
+      return this.timerCount = window.setInterval(function() {
+        $("#timer").text(amount + " seconds remaining");
+        return amount = amount - 1;
+      }, 1000);
     };
-    WordMemory.prototype.updateTimer = function(amount) {
-      return $("#timer").text(amount + " seconds remaining");
+    WordMemory.prototype.deactivateTimer = function() {
+      window.clearInterval(this.timerCount);
+      return $("#timer").text("Time Up");
     };
     WordMemory.prototype.endLevel = function(numWords) {
       var passLevel, passRate;
       this.levelRunning = false;
       this.hideInput();
+      this.deactivateTimer();
+      window.clearTimeout(this.inputTimeout);
       passRate = (numWords / 5) * 4;
       passLevel = false;
       if (this.wordsGot.length >= passRate) {
@@ -136,7 +132,7 @@
       console.log($(this.formInput));
       $(this.formInput).parents("form").show();
       if (timeout !== 0) {
-        return setTimeout(__bind(function() {
+        return this.inputTimeout = setTimeout(__bind(function() {
           this.hideInput();
           if (this.levelRunning === true) {
             return this.endLevel(this.currentWords.length);

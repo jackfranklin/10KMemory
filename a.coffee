@@ -39,7 +39,7 @@ class WordMemory
         @collectWords numWords
 
         @flashWords timeAllowed, ->
-            @timer()
+            @activateTimer 30
             @showInput inputTime
             @monitorInput numWords
         , this
@@ -58,26 +58,24 @@ class WordMemory
                 @endLevel totalWords
 
 
-    timer: ->
-        console.log "timer called"
-        amount = 30
-        @updateTimer amount
-        amount = amount-1
-        if @levelRunning is true
-            setTimeout @updateTimer amount, 1000
-        if @levelRunning is false
-            $("#timer").text("TIME UP!")
+    activateTimer: (amount) ->
+        @timerCount = window.setInterval ->
+            $("#timer").text(amount + " seconds remaining")
+            amount = amount-1
+        , 1000
 
-    
-    updateTimer: (amount) ->
-        $("#timer").text(amount + " seconds remaining")
-        
+    deactivateTimer: ->
+        window.clearInterval(@timerCount)
+        $("#timer").text("Time Up")
+
+
         
         
     endLevel: (numWords) ->
         @levelRunning = false
         @hideInput()
-            
+        @deactivateTimer()
+        window.clearTimeout(@inputTimeout) 
         passRate = (numWords/5)*4
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
@@ -114,7 +112,7 @@ class WordMemory
     showInput: (timeout=0) ->
         console.log $(@formInput)
         $(@formInput).parents("form").show()
-        if timeout isnt 0 then setTimeout =>
+        if timeout isnt 0 then @inputTimeout = setTimeout =>
             @hideInput()
             if @levelRunning is true
                 @endLevel @currentWords.length
