@@ -2,6 +2,7 @@ class WordMemory
     constructor: (startButton, formInput)->
         @startButton = startButton
         @formInput = formInput
+        @timerCount
         @currentLevel = 0
         @currentScore = 0
         @currentWords = []
@@ -31,12 +32,14 @@ class WordMemory
         @levelRunning = true
         numWords = @currentLevel*5
         timeAllowed = 5000
-        inputTime = (numWords*3)*1000
+        inputTime = 30*1000
+        console.log("Set inputTime to " + inputTime)
         #clear the list of words
         @currentWords = []
         @collectWords numWords
 
         @flashWords timeAllowed, ->
+            @timer()
             @showInput inputTime
             @monitorInput numWords
         , this
@@ -55,7 +58,22 @@ class WordMemory
                 @endLevel totalWords
 
 
+    timer: ->
+        console.log "timer called"
+        amount = 30
+        @updateTimer amount
+        amount = amount-1
+        if @levelRunning is true
+            setTimeout @updateTimer amount, 1000
+        if @levelRunning is false
+            $("#timer").text("TIME UP!")
 
+    
+    updateTimer: (amount) ->
+        $("#timer").text(amount + " seconds remaining")
+        
+        
+        
     endLevel: (numWords) ->
         @levelRunning = false
         @hideInput()
@@ -64,7 +82,6 @@ class WordMemory
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
         console.log(passRate, passLevel, @wordsGot.length)
-        @currentScore += @wordsGot.length
         if passLevel is true
             alert("Level " + @currentLevel + " passed!")
             $("#wordlist").text("Congratulations! You passed the Level")

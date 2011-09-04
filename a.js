@@ -10,6 +10,7 @@
     function WordMemory(startButton, formInput) {
       this.startButton = startButton;
       this.formInput = formInput;
+      this.timerCount;
       this.currentLevel = 0;
       this.currentScore = 0;
       this.currentWords = [];
@@ -50,10 +51,12 @@
       this.levelRunning = true;
       numWords = this.currentLevel * 5;
       timeAllowed = 5000;
-      inputTime = (numWords * 3) * 1000;
+      inputTime = 30 * 1000;
+      console.log("Set inputTime to " + inputTime);
       this.currentWords = [];
       this.collectWords(numWords);
       return this.flashWords(timeAllowed, function() {
+        this.timer();
         this.showInput(inputTime);
         return this.monitorInput(numWords);
       }, this);
@@ -74,6 +77,22 @@
         }
       }, this));
     };
+    WordMemory.prototype.timer = function() {
+      var amount;
+      console.log("timer called");
+      amount = 30;
+      this.updateTimer(amount);
+      amount = amount - 1;
+      if (this.levelRunning === true) {
+        setTimeout(this.updateTimer(amount, 1000));
+      }
+      if (this.levelRunning === false) {
+        return $("#timer").text("TIME UP!");
+      }
+    };
+    WordMemory.prototype.updateTimer = function(amount) {
+      return $("#timer").text(amount + " seconds remaining");
+    };
     WordMemory.prototype.endLevel = function(numWords) {
       var passLevel, passRate;
       this.levelRunning = false;
@@ -84,7 +103,6 @@
         passLevel = true;
       }
       console.log(passRate, passLevel, this.wordsGot.length);
-      this.currentScore += this.wordsGot.length;
       if (passLevel === true) {
         alert("Level " + this.currentLevel + " passed!");
         $("#wordlist").text("Congratulations! You passed the Level");
