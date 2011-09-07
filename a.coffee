@@ -19,7 +19,7 @@ class WordMemory
             @startLevel()
     collectWords: (amount=5) ->
         $.ajax({
-            url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + @maxWordLength + "&minLength=2&api_key=" + @wordnik,
+            url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + @maxWordLength + "&minLength=4&excludePartOfSpeech=abbreviation&api_key=" + @wordnik,
             dataType: "json",
             method: "get",
             async: false,

@@ -32,7 +32,7 @@
         amount = 5;
       }
       return $.ajax({
-        url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + this.maxWordLength + "&minLength=2&api_key=" + this.wordnik,
+        url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + this.maxWordLength + "&minLength=4&excludePartOfSpeech=abbreviation&api_key=" + this.wordnik,
         dataType: "json",
         method: "get",
         async: false,
