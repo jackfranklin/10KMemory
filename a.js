@@ -49,9 +49,15 @@
     WordMemory.prototype.startLevel = function() {
       var inputTime, numWords, timeAllowed;
       ++this.currentLevel;
-      ++this.maxWordLength;
+      if (this.maxWordLength < 10) {
+        ++this.maxWordLength;
+      }
       this.levelRunning = true;
-      numWords = this.currentLevel * 5;
+      if (this.currentLevel < 11) {
+        numWords = this.currentLevel * 2;
+      } else {
+        numWords = 20;
+      }
       timeAllowed = 5000;
       inputTime = 30 * 1000;
       console.log("Set inputTime to " + inputTime);

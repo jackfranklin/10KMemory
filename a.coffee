@@ -27,12 +27,16 @@ class WordMemory
                 @currentWords.push(x.word.toLowerCase()) for x in d
                 console.log @currentWords
         })
+        
 
     startLevel: ->
         ++@currentLevel
-        ++@maxWordLength
+        ++@maxWordLength if @maxWordLength < 10
         @levelRunning = true
-        numWords = @currentLevel*5
+        if(@currentLevel < 11)
+            numWords = @currentLevel*2
+        else
+            numWords = 20
         timeAllowed = 5000
         inputTime = 30*1000
         console.log("Set inputTime to " + inputTime)
