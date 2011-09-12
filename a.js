@@ -50,6 +50,7 @@
     };
     WordMemory.prototype.startLevel = function() {
       var inputTime, numWords, timeAllowed;
+      $("#words").html("");
       ++this.currentLevel;
       if (this.maxWordLength < 10) {
         ++this.maxWordLength;

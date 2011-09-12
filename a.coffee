@@ -32,6 +32,7 @@ class WordMemory
         
 
     startLevel: ->
+        $("#words").html("");
         ++@currentLevel
         ++@maxWordLength if @maxWordLength < 10
         @levelRunning = true
