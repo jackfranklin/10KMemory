@@ -94,8 +94,19 @@ input:focus {
     font-size: 12px;
     position: fixed; right:0; top:0;
     background: #fff;
+    width: 25%;
 }
 #foot p {
     margin: 0;
     padding: 0 5px;
+}
+
+#words {
+    padding: 10px 0; margin: 20px 0; list-style: none;
+    background: #c3d5c4;
+}
+#words li {
+    display: inline-block; font-size: 18px; text-transform: uppercase;
+    width: 24%; color: #222;
+    text-align: center; height: 30px; line-height: 30px;
 }
