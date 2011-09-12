@@ -21,6 +21,8 @@
       this.init();
     }
     WordMemory.prototype.init = function() {
+      this.hideInput();
+      $("#words").hide();
       return $(this.startButton).click(__bind(function(e) {
         e.preventDefault();
         $(this.startButton).hide();
@@ -58,6 +60,9 @@
       } else {
         numWords = 20;
       }
+      if (numWords < 5) {
+        numWords = 5;
+      }
       timeAllowed = 5000;
       inputTime = 30 * 1000;
       console.log("Set inputTime to " + inputTime);
@@ -87,13 +92,13 @@
     };
     WordMemory.prototype.activateTimer = function(amount) {
       return this.timerCount = window.setInterval(function() {
-        $("#timer").text(amount + " seconds remaining");
+        $("#timer strong").text(":" + amount);
         return amount = amount - 1;
       }, 1000);
     };
     WordMemory.prototype.deactivateTimer = function() {
       window.clearInterval(this.timerCount);
-      return $("#timer").text("Time Up");
+      return $("#timer strong").text(":");
     };
     WordMemory.prototype.endLevel = function(numWords) {
       var passLevel, passRate;
@@ -110,26 +115,32 @@
       if (passLevel === true) {
         alert("Level " + this.currentLevel + " passed!");
         $("#wordlist").text("Congratulations! You passed the Level");
-        $("#currentscore").text("Current Score: " + this.currentScore);
+        $("#currentscore strong").text(":" + this.currentScore);
         this.advanceLevel();
       }
       if (passLevel === false) {
         $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right");
-        $("#currentscore").text("Current Score: " + this.currentScore);
+        $("#currentscore").text(":" + this.currentScore);
         return alert("you lose");
       }
     };
     WordMemory.prototype.advanceLevel = function() {
-      $("#wordlist").text("On to Level " + (this.currentLevel + 1) + ". Get ready for more words but no more time!");
+      $("#startButton").text("On to Level " + (this.currentLevel + 1) + ". Get ready for more words but no more time!");
       this.wordsGot = [];
       return setTimeout(__bind(function() {
         return this.startLevel();
       }, this), 1000);
     };
     WordMemory.prototype.flashWords = function(timeout, callback, scope) {
-      $("#updates").hide().text(this.currentWords.join(" ")).show();
+      var x, _i, _len, _ref;
+      _ref = this.currentWords;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        x = _ref[_i];
+        $("#words").append("<li>" + x + "</li>");
+      }
+      $("#words").slideDown();
       return setTimeout(function() {
-        $("#updates").hide();
+        $("#words").slideUp();
         return callback.call(scope);
       }, timeout);
     };
@@ -138,7 +149,7 @@
         timeout = 0;
       }
       console.log($(this.formInput));
-      $(this.formInput).parents("form").show();
+      $(this.formInput).parents("form").css("visibility", "visible");
       if (timeout !== 0) {
         return this.inputTimeout = setTimeout(__bind(function() {
           this.hideInput();
@@ -149,7 +160,7 @@
       }
     };
     WordMemory.prototype.hideInput = function() {
-      return $(this.formInput).parents("form").hide();
+      return $(this.formInput).parents("form").css("visibility", "hidden");
     };
     return WordMemory;
   })();

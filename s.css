@@ -57,6 +57,7 @@ input:focus {
 
 #bottombanner {
     width: 100%;
+    margin-top: 20px;
 }
 
 #bottombanner span {
@@ -110,3 +111,4 @@ input:focus {
     width: 24%; color: #222;
     text-align: center; height: 30px; line-height: 30px;
 }
+

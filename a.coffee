@@ -13,6 +13,8 @@ class WordMemory
         @init()
 
     init: ->
+        @hideInput()
+        $("#words").hide();
         $(@startButton).click (e) =>
             e.preventDefault()
             $(@startButton).hide()
@@ -37,6 +39,7 @@ class WordMemory
             numWords = @currentLevel*2
         else
             numWords = 20
+        numWords = 5 if numWords < 5
         timeAllowed = 5000
         inputTime = 30*1000
         console.log("Set inputTime to " + inputTime)
@@ -66,13 +69,13 @@ class WordMemory
 
     activateTimer: (amount) ->
         @timerCount = window.setInterval ->
-            $("#timer").text(amount + " seconds remaining")
+            $("#timer strong").text(":"+amount)
             amount = amount-1
         , 1000
 
     deactivateTimer: ->
         window.clearInterval(@timerCount)
-        $("#timer").text("Time Up")
+        $("#timer strong").text(":")
 
 
         
@@ -89,17 +92,17 @@ class WordMemory
         if passLevel is true
             alert("Level " + @currentLevel + " passed!")
             $("#wordlist").text("Congratulations! You passed the Level")
-            $("#currentscore").text("Current Score: " + @currentScore)
+            $("#currentscore strong").text(":" + @currentScore)
             @advanceLevel()
 
         if passLevel is false
             $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right")
-            $("#currentscore").text("Current Score: " + @currentScore)
+            $("#currentscore").text(":" + @currentScore)
             alert("you lose")
             # TODO: Build in some form of reset here.
             
     advanceLevel: ->
-        $("#wordlist").text("On to Level " + (@currentLevel+1) + ". Get ready for more words but no more time!")
+        $("#startButton").text("On to Level " + (@currentLevel+1) + ". Get ready for more words but no more time!")
         @wordsGot = []
         setTimeout =>
             @startLevel()
@@ -107,9 +110,10 @@ class WordMemory
 
     flashWords: (timeout, callback, scope) ->
         #adds the words to the paragraph & shows them for timeout seconds
-        $("#updates").hide().text(@currentWords.join(" ")).show()
+        $("#words").append("<li>" + x + "</li>") for x in @currentWords
+        $("#words").slideDown()
         setTimeout ->
-            $("#updates").hide()
+            $("#words").slideUp()
             callback.call(scope)
         ,timeout
         
@@ -117,7 +121,7 @@ class WordMemory
 
     showInput: (timeout=0) ->
         console.log $(@formInput)
-        $(@formInput).parents("form").show()
+        $(@formInput).parents("form").css("visibility", "visible")
         if timeout isnt 0 then @inputTimeout = setTimeout =>
             @hideInput()
             if @levelRunning is true
@@ -126,8 +130,7 @@ class WordMemory
 
 
     hideInput: ->
-        $(@formInput).parents("form").hide()
-    
+        $(@formInput).parents("form").css("visibility", "hidden") 
     
 
 
