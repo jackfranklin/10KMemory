@@ -13,8 +13,12 @@ class WordMemory
         @init()
 
     init: ->
+        #capture the form submit so hitting enter doesn't do anything
+        $("form").submit (e) ->
+            e.preventDefault()
+
         @hideInput()
-        $("#words").hide();
+        $("#words").hide()
         $(@startButton).click (e) =>
             e.preventDefault()
             $(@startButton).hide()
