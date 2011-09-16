@@ -11,6 +11,7 @@ If you fancy giving the game a try, you can [play it here](http://10k.jackfrankl
 #Current Status
 The code currently is messy & was just written to get a working app. I'm in the process of refactoring it all to tidy it up.
 The site's "responsiveness" also needs some working on.
+And yes, right now it doesn't come in at under 10k. But it will ;)
 
 #Technologies
 All the JS for the app is written in CoffeeScript. If you want to have a play, be sure to edit `a.coffee`, not `a.js`, and get [CoffeeScript](http://jackfranklin.co.uk/blog/2011/09/javascript-coffeescript) installed.
