@@ -3,7 +3,7 @@ class WordMemory
         @startButton = startButton
         @formInput = formInput
         @timerCount
-        @maxWordLength = 3
+        @maxWordLength = 6
         @currentLevel = 0
         @currentScore = 0
         @currentWords = []
@@ -25,7 +25,7 @@ class WordMemory
             @startLevel()
     collectWords: (amount=5) ->
         $.ajax({
-            url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + @maxWordLength + "&minLength=4&excludePartOfSpeech=abbreviation&api_key=" + @wordnik,
+            url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + @maxWordLength + "&minLength=4&excludePartOfSpeech=abbreviation&includePartOfSpeech=adjective&api_key=" + @wordnik,
             dataType: "json",
             method: "get",
             async: false,
@@ -38,7 +38,7 @@ class WordMemory
     startLevel: ->
         $("#words").html("")
         ++@currentLevel
-        ++@maxWordLength if @maxWordLength < 10
+        ++@maxWordLength if @maxWordLength < 12
         @levelRunning = true
         if(@currentLevel < 11)
             numWords = @currentLevel*2

@@ -11,7 +11,7 @@
       this.startButton = startButton;
       this.formInput = formInput;
       this.timerCount;
-      this.maxWordLength = 3;
+      this.maxWordLength = 6;
       this.currentLevel = 0;
       this.currentScore = 0;
       this.currentWords = [];
@@ -37,7 +37,7 @@
         amount = 5;
       }
       return $.ajax({
-        url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + this.maxWordLength + "&minLength=4&excludePartOfSpeech=abbreviation&api_key=" + this.wordnik,
+        url: "http://api.wordnik.com/v4/words.json/randomWords?hasDictionaryDef=true&limit=" + amount + "&maxLength=" + this.maxWordLength + "&minLength=4&excludePartOfSpeech=abbreviation&includePartOfSpeech=adjective&api_key=" + this.wordnik,
         dataType: "json",
         method: "get",
         async: false,
@@ -55,7 +55,7 @@
       var inputTime, numWords, timeAllowed;
       $("#words").html("");
       ++this.currentLevel;
-      if (this.maxWordLength < 10) {
+      if (this.maxWordLength < 12) {
         ++this.maxWordLength;
       }
       this.levelRunning = true;
