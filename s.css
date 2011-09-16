@@ -16,7 +16,7 @@ html {
     margin: 0 auto;
 }
 
-#startButton {
+#startButton, #resetButton {
     background: #1c3f15;
     display: block;
     margin: 0 auto;
@@ -28,11 +28,16 @@ html {
     text-align: center;
     
 }
-#startButton:link, #startButton:visited {
+#startButton:link, #startButton:visited,
+#resetButton:link, #resetButton:visited {
     color: #fff;
     font-weight: bold;
     text-shadow: 1px 0px 0px #000;
     text-decoration: none;
+}
+
+#resetButton {
+    margin-top: 20px;
 }
 
 form {display: inline-block;width: 48%;}
