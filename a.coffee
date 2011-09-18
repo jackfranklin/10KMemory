@@ -65,7 +65,7 @@ class WordMemory
             if inputVal in @currentWords
                 @wordsGot.push(inputVal)
                 @currentScore++
-                $("#currentscore").text("Current Score: " + @currentScore)
+                $("#currentscore strong").text(@currentScore)
                 $(@formInput).val("")
             if @wordsGot.length is totalWords
                 $(@formInput).unbind()
@@ -102,7 +102,7 @@ class WordMemory
 
         if passLevel is false
             $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right")
-            $("#currentscore").text(":" + @currentScore)
+            $("#currentscore strong").text(@currentScore)
             alert("you lose")
             # TODO: Build in some form of reset here.
             
@@ -125,8 +125,8 @@ class WordMemory
 
 
     showInput: (timeout=0) ->
-        console.log $(@formInput)
         $(@formInput).parents("form").css("visibility", "visible")
+        $(@formInput).focus()
         if timeout isnt 0 then @inputTimeout = setTimeout =>
             @hideInput()
             if @levelRunning is true
@@ -135,8 +135,18 @@ class WordMemory
 
 
     hideInput: ->
-        $(@formInput).parents("form").css("visibility", "hidden") 
+        $(@formInput).parents("form").css("visibility", "hidden")
     
 
 
 window.game = new WordMemory "#startButton", "#wordinput"
+
+
+pageWidth = ->
+    $("#pagewidth").text($(window).width() + "px")
+
+$(document).ready ->
+    pageWidth()
+
+$(window).resize ->
+    pageWidth()

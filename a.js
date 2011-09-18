@@ -1,5 +1,5 @@
 (function() {
-  var WordMemory;
+  var WordMemory, pageWidth;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -85,7 +85,7 @@
         if (__indexOf.call(this.currentWords, inputVal) >= 0) {
           this.wordsGot.push(inputVal);
           this.currentScore++;
-          $("#currentscore").text("Current Score: " + this.currentScore);
+          $("#currentscore strong").text(this.currentScore);
           $(this.formInput).val("");
         }
         if (this.wordsGot.length === totalWords) {
@@ -124,7 +124,7 @@
       }
       if (passLevel === false) {
         $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right");
-        $("#currentscore").text(":" + this.currentScore);
+        $("#currentscore strong").text(this.currentScore);
         return alert("you lose");
       }
     };
@@ -152,8 +152,8 @@
       if (timeout == null) {
         timeout = 0;
       }
-      console.log($(this.formInput));
       $(this.formInput).parents("form").css("visibility", "visible");
+      $(this.formInput).focus();
       if (timeout !== 0) {
         return this.inputTimeout = setTimeout(__bind(function() {
           this.hideInput();
@@ -169,4 +169,13 @@
     return WordMemory;
   })();
   window.game = new WordMemory("#startButton", "#wordinput");
+  pageWidth = function() {
+    return $("#pagewidth").text($(window).width() + "px");
+  };
+  $(document).ready(function() {
+    return pageWidth();
+  });
+  $(window).resize(function() {
+    return pageWidth();
+  });
 }).call(this);

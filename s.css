@@ -48,12 +48,17 @@ label {
     text-transform: uppercase;
     font-size: 14px;  position: relative;
     height: 34px; line-height: 34px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 input {
     display: inline-block; height: 30px;
     border: none; margin-left: 15px; width: 45%;
     font-size: 18px; border: 1px solid #222;
     position: absolute; right: 0;
+    -moz-border-topright-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 input:focus {
     border: 1px solid #1c3f15;
@@ -117,3 +122,36 @@ input:focus {
     text-align: center; height: 30px; line-height: 30px;
 }
 
+#pagewidth {
+    position: absolute; top: 0; left: 0; display: block;
+    font-size: 20px;
+}
+
+@media all and (max-width: 833px) {
+    #bottombanner > form, #bottombanner > span {
+        display: block;
+        clear: both;
+        float: none;
+        margin-bottom: 20px;
+        margin-left: auto; margin-right: auto;
+        
+    }
+    #bottombanner > span {
+        padding-left: 5px; padding-right: 5px;
+        width: 90%;
+    }
+
+    #bottombanner > form {
+        width: 92%;
+    }
+
+
+    #startButton, #resetButton {
+        width: 90%;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    #wrap {
+        width: 80%;
+    }
+}
