@@ -1,0 +1,4 @@
+App Details:
+
+"Recall" is a word memory game that uses the Wordnik.com API to pull in words randomly. Players are given just 15 seconds to remember a certain amount of words, with the number of words going up each time. The game keeps track of your score."
+

@@ -31,12 +31,12 @@ class WordMemory
             async: false,
             success: (d) =>
                 @currentWords.push(x.word.toLowerCase()) for x in d
-                console.log @currentWords
         })
         
 
     startLevel: ->
         $("#words").html("")
+        $("#intro").html("")
         ++@currentLevel
         ++@maxWordLength if @maxWordLength < 12
         @levelRunning = true
@@ -47,7 +47,6 @@ class WordMemory
         numWords = 5 if numWords < 5
         timeAllowed = 5000
         inputTime = 30*1000
-        console.log("Set inputTime to " + inputTime)
         #clear the list of words
         @currentWords = []
         @collectWords numWords
@@ -93,21 +92,17 @@ class WordMemory
         passRate = (numWords/5)*4
         passLevel = false
         passLevel = true if @wordsGot.length >= passRate
-        console.log(passRate, passLevel, @wordsGot.length)
         if passLevel is true
-            alert("Level " + @currentLevel + " passed!")
-            $("#wordlist").text("Congratulations! You passed the Level")
-            $("#currentscore strong").text(":" + @currentScore)
+            $("#intro").text("Congratulations! You passed the Level")
+            $("#currentscore strong").text(@currentScore)
             @advanceLevel()
 
         if passLevel is false
-            $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right")
+            $("#intro").text("Sorry, you lost the level. Your total score is displayed in the top right")
             $("#currentscore strong").text(@currentScore)
-            alert("you lose")
-            # TODO: Build in some form of reset here.
             
     advanceLevel: ->
-        $("#startButton").text("On to Level " + (@currentLevel+1) + ". Get ready for more words but no more time!")
+        $("#intro").text("On to Level " + (@currentLevel+1) + ". Get ready for more words but no more time!")
         @wordsGot = []
         setTimeout =>
             @startLevel()
@@ -141,12 +136,3 @@ class WordMemory
 
 window.game = new WordMemory "#startButton", "#wordinput"
 
-
-pageWidth = ->
-    $("#pagewidth").text($(window).width() + "px")
-
-$(document).ready ->
-    pageWidth()
-
-$(window).resize ->
-    pageWidth()

@@ -1,5 +1,5 @@
 (function() {
-  var WordMemory, pageWidth;
+  var WordMemory;
   var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __indexOf = Array.prototype.indexOf || function(item) {
     for (var i = 0, l = this.length; i < l; i++) {
       if (this[i] === item) return i;
@@ -42,18 +42,20 @@
         method: "get",
         async: false,
         success: __bind(function(d) {
-          var x, _i, _len;
+          var x, _i, _len, _results;
+          _results = [];
           for (_i = 0, _len = d.length; _i < _len; _i++) {
             x = d[_i];
-            this.currentWords.push(x.word.toLowerCase());
+            _results.push(this.currentWords.push(x.word.toLowerCase()));
           }
-          return console.log(this.currentWords);
+          return _results;
         }, this)
       });
     };
     WordMemory.prototype.startLevel = function() {
       var inputTime, numWords, timeAllowed;
       $("#words").html("");
+      $("#intro").html("");
       ++this.currentLevel;
       if (this.maxWordLength < 12) {
         ++this.maxWordLength;
@@ -69,7 +71,6 @@
       }
       timeAllowed = 5000;
       inputTime = 30 * 1000;
-      console.log("Set inputTime to " + inputTime);
       this.currentWords = [];
       this.collectWords(numWords);
       return this.flashWords(timeAllowed, function() {
@@ -115,21 +116,18 @@
       if (this.wordsGot.length >= passRate) {
         passLevel = true;
       }
-      console.log(passRate, passLevel, this.wordsGot.length);
       if (passLevel === true) {
-        alert("Level " + this.currentLevel + " passed!");
-        $("#wordlist").text("Congratulations! You passed the Level");
-        $("#currentscore strong").text(":" + this.currentScore);
+        $("#intro").text("Congratulations! You passed the Level");
+        $("#currentscore strong").text(this.currentScore);
         this.advanceLevel();
       }
       if (passLevel === false) {
-        $("#wordlist").text("Sorry, you lost the level. Your total score is displayed in the top right");
-        $("#currentscore strong").text(this.currentScore);
-        return alert("you lose");
+        $("#intro").text("Sorry, you lost the level. Your total score is displayed in the top right");
+        return $("#currentscore strong").text(this.currentScore);
       }
     };
     WordMemory.prototype.advanceLevel = function() {
-      $("#startButton").text("On to Level " + (this.currentLevel + 1) + ". Get ready for more words but no more time!");
+      $("#intro").text("On to Level " + (this.currentLevel + 1) + ". Get ready for more words but no more time!");
       this.wordsGot = [];
       return setTimeout(__bind(function() {
         return this.startLevel();
@@ -169,13 +167,4 @@
     return WordMemory;
   })();
   window.game = new WordMemory("#startButton", "#wordinput");
-  pageWidth = function() {
-    return $("#pagewidth").text($(window).width() + "px");
-  };
-  $(document).ready(function() {
-    return pageWidth();
-  });
-  $(window).resize(function() {
-    return pageWidth();
-  });
 }).call(this);

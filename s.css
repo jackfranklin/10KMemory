@@ -122,10 +122,7 @@ input:focus {
     text-align: center; height: 30px; line-height: 30px;
 }
 
-#pagewidth {
-    position: absolute; top: 0; left: 0; display: block;
-    font-size: 20px;
-}
+
 
 @media all and (max-width: 833px) {
     #bottombanner > form, #bottombanner > span {
@@ -155,3 +152,14 @@ input:focus {
         width: 80%;
     }
 }
+
+@media all and (max-width: 740px) {
+    #foot {
+        position: absolute; width: 100%;
+    }
+    body {
+        padding-top: 30px;
+    }
+}
+
+#intro {text-align: center; }
