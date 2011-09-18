@@ -16,3 +16,7 @@ Just sent it off for first attempt at submission. Finger's crossed!
 All the JS for the app is written in CoffeeScript. If you want to have a play, be sure to edit `a.coffee`, not `a.js`, and get [CoffeeScript](http://jackfranklin.co.uk/blog/2011/09/javascript-coffeescript) installed.
 
 The words are pulled in using the [Wordnik API](http://developer.wordnik.com/). You have to register a developer account, but it's free & instant. 
+
+I used [Smaller App for Mac](http://smallerapp.com/) to minify the JS & CSS for me. It also minifies the HTML for you as well if you want, but it didn't really save anything. 
+
+[Smush It!](http://www.smushit.com/ysmush.it/) was used to get some KB off the two images.
