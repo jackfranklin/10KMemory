@@ -9,18 +9,7 @@ I've decided to put it on Github to let people have a look at the code and learn
 If you fancy giving the game a try, you can [play it here](http://10k.jackfranklin.org)
 
 #Current Status
-The code currently is messy & was just written to get a working app.
-
-I'm in the process of refactoring it all to tidy it up.
-
-The site's "responsiveness" also needs some working on (it's broken on mobile-sized widths right now)
-
-And yes, right now it doesn't come in at under 10k. But it will ;)
-
-#Current TODOs before Launch
-
-1. Focus on the textbox once words fade out
-2. Make pressing `ESC` clear the textbox
+Just sent it off for first attempt at submission. Finger's crossed!
 
 
 #Technologies
