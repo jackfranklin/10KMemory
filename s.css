@@ -163,3 +163,15 @@ input:focus {
 }
 
 #intro {text-align: center; }
+
+@media screen and (device-width: 768px) {
+    input {
+        width: 40%;
+    }
+    label {line-height: 40px; height: 40px;}
+    #bottombanner span {
+        line-height: 30px;
+        height: 30px;
+    }
+
+}

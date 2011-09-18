@@ -17,7 +17,7 @@ class WordMemory
         $("form").submit (e) ->
             e.preventDefault()
 
-        @hideInput()
+        #@hideInput()
         $("#words").hide()
         $(@startButton).click (e) =>
             e.preventDefault()

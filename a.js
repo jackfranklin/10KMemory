@@ -24,7 +24,6 @@
       $("form").submit(function(e) {
         return e.preventDefault();
       });
-      this.hideInput();
       $("#words").hide();
       return $(this.startButton).click(__bind(function(e) {
         e.preventDefault();
